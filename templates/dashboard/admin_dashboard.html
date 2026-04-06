@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header mb-4">
+        <h1 class="dashboard-title">Admin Dashboard</h1>
+        <p class="dashboard-subtitle">System Overview and Statistics</p>
+    </div>
+
+    {% if stats %}
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card primary">
+                <div class="stat-number">{{ stats.total_patients }}</div>
+                <div class="stat-label">Total Patients</div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card success">
+                <div class="stat-number">{{ stats.total_doctors }}</div>
+                <div class="stat-label">Total Doctors</div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card warning">
+                <div class="stat-number">{{ stats.todays_appointments }}</div>
+                <div class="stat-label">Today's Appointments</div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card danger">
+                <div class="stat-number">${{ "%.2f"|format(stats.total_revenue) }}</div>
+                <div class="stat-label">Monthly Revenue</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Row of Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card primary">
+                <div class="stat-number">{{ stats.total_rooms }}</div>
+                <div class="stat-label">Total Rooms</div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card success">
+                <div class="stat-number">{{ stats.occupied_rooms }}</div>
+                <div class="stat-label">Occupied Rooms</div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card warning">
+                <div class="stat-number">{{ stats.upcoming_appointments }}</div>
+                <div class="stat-label">Upcoming Appointments</div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card danger">
+                <div class="stat-number">{{ stats.pending_bills }}</div>
+                <div class="stat-label">Pending Bills</div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Main Content Row -->
+    <div class="row">
+        <!-- Recent Patients -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-users"></i> Recent Patients
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_patients %}
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for patient in recent_patients %}
+                                <tr>
+                                    <td>
+                                        {% if patient.user %}
+                                            {{ patient.user.full_name }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if patient.user %}
+                                            {{ patient.user.email }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('patient.view_patient', patient_id=patient.id) }}" 
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No recent patients</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-tasks"></i> Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="{{ url_for('patient.add_patient') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-user-plus"></i> Add New Patient
+                        </a>
+                        <a href="{{ url_for('doctor.add_doctor') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-user-md"></i> Add New Doctor
+                        </a>
+                        <a href="{{ url_for('appointment.book_appointment') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-calendar-plus"></i> Book Appointment
+                        </a>
+                        <a href="{{ url_for('room.add_room') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-home"></i> Add New Room
+                        </a>
+                        <a href="{{ url_for('billing.add_bill') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-receipt"></i> Create Bill
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Cards -->
+    <div class="row mt-4">
+        <div class="col-md-2 mb-3">
+            <a href="{{ url_for('patient.list_patients') }}" class="card text-center text-decoration-none text-dark">
+                <div class="card-body">
+                    <i class="fas fa-users" style="font-size: 2rem; color: #3498db;"></i>
+                    <p class="card-text mt-2">Patients</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <a href="{{ url_for('doctor.list_doctors') }}" class="card text-center text-decoration-none text-dark">
+                <div class="card-body">
+                    <i class="fas fa-user-md" style="font-size: 2rem; color: #27ae60;"></i>
+                    <p class="card-text mt-2">Doctors</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <a href="{{ url_for('appointment.list_appointments') }}" class="card text-center text-decoration-none text-dark">
+                <div class="card-body">
+                    <i class="fas fa-calendar" style="font-size: 2rem; color: #f39c12;"></i>
+                    <p class="card-text mt-2">Appointments</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <a href="{{ url_for('billing.list_bills') }}" class="card text-center text-decoration-none text-dark">
+                <div class="card-body">
+                    <i class="fas fa-file-invoice-dollar" style="font-size: 2rem; color: #e74c3c;"></i>
+                    <p class="card-text mt-2">Billing</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <a href="{{ url_for('room.list_rooms') }}" class="card text-center text-decoration-none text-dark">
+                <div class="card-body">
+                    <i class="fas fa-bed" style="font-size: 2rem; color: #9b59b6;"></i>
+                    <p class="card-text mt-2">Rooms</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <a href="{{ url_for('lab_report.list_lab_reports') }}" class="card text-center text-decoration-none text-dark">
+                <div class="card-body">
+                    <i class="fas fa-flask" style="font-size: 2rem; color: #16a085;"></i>
+                    <p class="card-text mt-2">Lab Reports</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

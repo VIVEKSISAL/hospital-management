@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Welcome Section -->
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <div class="dashboard-header text-center">
+                <h1 class="dashboard-title">Welcome to Hospital Management System</h1>
+                <p class="dashboard-subtitle">Your Complete Healthcare Management Solution</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mb-5">
+        <div class="col-md-3 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-user-md" style="font-size: 2.5rem; color: #3498db;"></i>
+                    <h5 class="card-title mt-3">Doctor Management</h5>
+                    <p class="card-text">Manage doctor profiles, specializations, and availability</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-calendar-check" style="font-size: 2.5rem; color: #27ae60;"></i>
+                    <h5 class="card-title mt-3">Appointments</h5>
+                    <p class="card-text">Book and manage patient appointments efficiently</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-file-invoice-dollar" style="font-size: 2.5rem; color: #f39c12;"></i>
+                    <h5 class="card-title mt-3">Billing</h5>
+                    <p class="card-text">Generate bills and manage patient payments</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-bed" style="font-size: 2.5rem; color: #e74c3c;"></i>
+                    <h5 class="card-title mt-3">Room Management</h5>
+                    <p class="card-text">Track room allocation and occupancy</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="row mb-5">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card bg-gradient">
+                <div class="card-body p-5 text-center">
+                    <h3 class="card-title mb-3">Ready to Get Started?</h3>
+                    <p class="card-text mb-4">Sign in with your credentials or create a new account to access the system</p>
+                    <div>
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg mx-2">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary btn-lg mx-2">
+                            <i class="fas fa-user-plus"></i> Register
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

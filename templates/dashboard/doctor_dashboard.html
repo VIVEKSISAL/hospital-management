@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Doctor Dashboard - Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="dashboard-header mb-4">
+        <h1 class="dashboard-title">Doctor Dashboard</h1>
+        <p class="dashboard-subtitle">{{ doctor.user.full_name }} - {{ doctor.specialization }}</p>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card stat-card primary">
+                <div class="stat-number">{{ stats.todays_appointments }}</div>
+                <div class="stat-label">Today's Appointments</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card success">
+                <div class="stat-number">{{ stats.pending_appointments }}</div>
+                <div class="stat-label">Pending Appointments</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card warning">
+                <div class="stat-number">{{ stats.completed_appointments }}</div>
+                <div class="stat-label">Completed This Month</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card danger">
+                <div class="stat-number">{{ stats.pending_reports }}</div>
+                <div class="stat-label">Pending Lab Reports</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Today's Appointments</h5>
+                </div>
+                <div class="card-body">
+                    {% if todays_appointments %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Time</th>
+                                    <th>Reason</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appointment in todays_appointments %}
+                                <tr>
+                                    <td>{{ appointment.patient.user.full_name if appointment.patient and appointment.patient.user }}</td>
+                                    <td>{{ appointment.appointment_time }}</td>
+                                    <td>{{ appointment.reason_for_visit }}</td>
+                                    <td><span class="badge badge-success">{{ appointment.status }}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No appointments for today</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="{{ url_for('appointment.list_appointments') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-calendar"></i> View All Appointments
+                        </a>
+                        <a href="{{ url_for('patient.list_patients') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-users"></i> My Patients
+                        </a>
+                        <a href="{{ url_for('lab_report.list_lab_reports') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-flask"></i> Lab Reports
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
